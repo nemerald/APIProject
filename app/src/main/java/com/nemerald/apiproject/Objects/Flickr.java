@@ -1,4 +1,4 @@
-package com.nemerald.apiproject;
+package com.nemerald.apiproject.Objects;
 
 public class Flickr {
 

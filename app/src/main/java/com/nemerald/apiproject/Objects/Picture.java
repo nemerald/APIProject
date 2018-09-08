@@ -1,4 +1,4 @@
-package com.nemerald.apiproject;
+package com.nemerald.apiproject.Objects;
 
 public class Picture {
 
@@ -6,16 +6,16 @@ public class Picture {
     private String picTitle;
     private String farm;
     private String server;
-    private String uId;
+    private String pictureOwner;
     private String secret;
 
 
-    public Picture(String picId, String picTitle, String farm, String server, String uID, String secret){
+    public Picture(String picId, String picTitle, String farm, String server, String pictureOwner, String secret){
         this.picId = picId;
         this.picTitle = picTitle;
         this.farm = farm;
         this.server = server;
-        this.uId = uID;
+        this.pictureOwner = pictureOwner;
         this.secret = secret;
     }
 
@@ -35,8 +35,8 @@ public class Picture {
         return server;
     }
 
-    public String getuId() {
-        return uId;
+    public String getPictureOwner() {
+        return pictureOwner;
     }
 
     public String getSecret() {
@@ -44,6 +44,6 @@ public class Picture {
     }
 
     public String getPictureUrl(Picture picture) {
-        return String.format("https://farm%s.staticflickr.com/%s/%s_%s.jpg", picture.getFarm(), picture.getServer(), picture.getuId(), picture.getSecret());
+        return String.format("https://farm%s.staticflickr.com/%s/%s_%s.jpg", picture.getFarm(), picture.getServer(), picture.getPicId(), picture.getSecret());
     }
 }

@@ -1,4 +1,4 @@
-package com.nemerald.fieldmapper;
+package com.nemerald.apiproject.Adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,28 +8,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nemerald.apiproject.Objects.Picture;
+import com.nemerald.apiproject.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.FieldViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.FieldViewHolder> {
 
     public static class FieldViewHolder extends RecyclerView.ViewHolder{
 
-        CardView cv;
-        TextView fieldName;
-        ImageView fieldPhoto;
+        CardView cardView;
+        TextView galleryPhotoTitle;
+        ImageView galleryPhoto;
 
         public FieldViewHolder(View itemView) {
             super(itemView);
 
-            cv = itemView.findViewById(R.id.item);
-            fieldName = itemView.findViewById(R.id.field_name);
-            fieldPhoto = itemView.findViewById(R.id.field_photo);
+            cardView = itemView.findViewById(R.id.list_item);
+            galleryPhoto = itemView.findViewById(R.id.gallery_photo);
+            galleryPhotoTitle = itemView.findViewById(R.id.gallery_photo_title);
+
         }
     }
-    List<Field> fields;
+    ArrayList<Picture> pictureArrayList;
 
-    RVAdapter(List<Field> fields){
-        this.fields = fields;
+    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList){
+        this.pictureArrayList = pictureArrayList;
     }
 
     @Override
@@ -39,19 +44,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.FieldViewHolder> {
 
     @Override
     public FieldViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         FieldViewHolder fvh = new FieldViewHolder(v);
         return fvh;
     }
 
     @Override
     public void onBindViewHolder(FieldViewHolder fieldViewHolder, int position) {
-        fieldViewHolder.fieldName.setText(fields.get(position).fieldName);
-        fieldViewHolder.fieldPhoto.setImageResource(fields.get(position).fieldPhotoId);
+
+        //fieldViewHolder.galleryPhoto.setImageResource(pictureArrayList.get(position).getPictureUrl(pictureArrayList.get(position)));
+        fieldViewHolder.galleryPhotoTitle.setText(pictureArrayList.get(position).getPicTitle());
     }
 
     @Override
     public int getItemCount() {
-        return fields.size();
+        return pictureArrayList.size();
     }
 }
