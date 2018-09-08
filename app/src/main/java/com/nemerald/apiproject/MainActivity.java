@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     static String flickrAPISecret = "5640b7fa07f99f2d";
     static String uId = "164385274@N05";
     TextView galleryTitle;
+    RecyclerView recyclerView;
     Gallery gallery;
-    private RecyclerView recyclerView;
 
     public static Context mContext;
 
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         galleryTitle = findViewById(R.id.galleryTitle);
-
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
