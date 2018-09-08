@@ -2,7 +2,7 @@ package com.nemerald.apiproject.Objects;
 
 public class Flickr implements IFlickr {
 
-    private String galleryId = "72157678340527534";
+    private String galleryId;
 
     public String getFullFlickrURL(){
         return FLICKR_URL+FLICKR_API_METHOD+API_KEY+getGalleryId();

@@ -22,19 +22,19 @@ public class HTTPRequester {
     public interface HTTPRequesterListener {
         void onDataLoaded(Object response);
     }
-    public HTTPRequester(){
+    public HTTPRequester(Flickr flickr){
         this.httpRequesterListener = null;
-        makeGalleryRequest();
+        makeGalleryRequest(flickr);
     }
     public void setHTTPRequesterListener(HTTPRequesterListener requestHelperListener) {
         this.httpRequesterListener = requestHelperListener;
     }
 
-    public void makeGalleryRequest(){
+    public void makeGalleryRequest(Flickr flickr){
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        JsonObjectRequest req = new JsonObjectRequest(new Flickr().getFullFlickrURL(), null,
+        JsonObjectRequest req = new JsonObjectRequest(flickr.getFullFlickrURL(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

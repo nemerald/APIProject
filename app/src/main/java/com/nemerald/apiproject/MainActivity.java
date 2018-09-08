@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.nemerald.apiproject.Adapters.RecyclerViewAdapter;
 import com.nemerald.apiproject.Helpers.HTTPRequester;
 import com.nemerald.apiproject.Helpers.JSONParser;
+import com.nemerald.apiproject.Objects.Flickr;
 import com.nemerald.apiproject.Objects.Gallery;
 import com.nemerald.apiproject.Objects.Picture;
 
@@ -64,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.VISIBLE);
             galleryTitle.setText(getString(R.string.loading_pictures));
 
-            HTTPRequester httpRequester = new HTTPRequester();
+            Flickr flickr = new Flickr();
+            flickr.setGalleryId("72157678340527534");
+
+            final HTTPRequester httpRequester = new HTTPRequester(flickr);
             httpRequester.setHTTPRequesterListener(new HTTPRequester.HTTPRequesterListener() {
                 @Override
                 public void onDataLoaded(Object response) {
