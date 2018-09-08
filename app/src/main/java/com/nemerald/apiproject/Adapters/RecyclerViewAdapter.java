@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,16 +29,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public FieldViewHolder(View itemView) {
             super(itemView);
-
             galleryPhoto = itemView.findViewById(R.id.gallery_photo);
             galleryPhotoTitle = itemView.findViewById(R.id.gallery_photo_title);
-
+        }
+        public void bind(final Picture picture, final OnItemClickListener listener) {
+            //name.setText(item.name);
+            //Picasso.with(itemView.getContext()).load(item.imageUrl).into(image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(picture);
+                }
+            });
         }
     }
-    ArrayList<Picture> pictureArrayList;
+    public interface OnItemClickListener{
+        void onItemClick(Picture picture);
+    }
 
-    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList){
+    ArrayList<Picture> pictureArrayList;
+    OnItemClickListener listener;
+
+    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList, OnItemClickListener listener){
         this.pictureArrayList = pictureArrayList;
+        this.listener = listener;
     }
 
     @Override
@@ -57,6 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         fieldViewHolder.galleryPhoto.setImageBitmap(getBitmapFromURL(pictureArrayList.get(position).getPictureUrl(pictureArrayList.get(position))));
         fieldViewHolder.galleryPhotoTitle.setText(pictureArrayList.get(position).getPicTitle());
+        fieldViewHolder.bind(pictureArrayList.get(position), listener);
     }
 
     @Override

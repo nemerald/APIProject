@@ -92,8 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initializeAdapter() {
-        RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(gallery.getPictureArrayList());
-        recyclerView.setAdapter(rvAdapter);
+        recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Picture picture) {
+                Toast.makeText(MainActivity.this, picture.getPicTitle(), Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     public static Context getContext(){
