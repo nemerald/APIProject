@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">APIProject</string>
-    <string name="loading">Laddar bilder</string>
+    <string name="loading_pictures">Laddar bilder</string>
     <string name="error_message">Felmeddelande</string>
 </resources>

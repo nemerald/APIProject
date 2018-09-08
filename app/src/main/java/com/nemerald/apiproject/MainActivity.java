@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static String uId = "164385274@N05";
     TextView galleryTitle;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
     Gallery gallery;
 
     public static Context mContext;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         galleryTitle = findViewById(R.id.galleryTitle);
         recyclerView = findViewById(R.id.recycler_view);
+        progressBar = findViewById(R.id.progressBar);
+
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            galleryTitle.setText(getString(R.string.loading_pictures));
 
             HTTPRequester httpRequester = new HTTPRequester();
             httpRequester.setHTTPRequesterListener(new HTTPRequester.HTTPRequesterListener() {
@@ -64,22 +70,23 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataLoaded(Object response) {
                     if(!response.getClass().isInstance(VolleyError.class)){
                         initGalleryData((JSONObject) response);
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                     else{
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                         Log.d(getString(R.string.error_message),((VolleyError) response).getMessage());
+                        Toast.makeText(MainActivity.this, ((VolleyError) response).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
-
     private void initGalleryData(JSONObject response) {
         gallery = new Gallery(response);
         galleryTitle.setText(gallery.getGalleryTitle());
         initializeAdapter();
 
     }
-
     private void initializeAdapter() {
         RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(gallery.getPictureArrayList());
         recyclerView.setAdapter(rvAdapter);
@@ -88,5 +95,4 @@ public class MainActivity extends AppCompatActivity {
     public static Context getContext(){
         return mContext;
     }
-
 }
