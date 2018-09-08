@@ -34,7 +34,7 @@ public class HTTPRequester {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        JsonObjectRequest req = new JsonObjectRequest(new Flickr().getUrl(), null,
+        JsonObjectRequest req = new JsonObjectRequest(new Flickr().getFullFlickrURL(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

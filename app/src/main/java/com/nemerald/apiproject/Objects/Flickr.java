@@ -1,18 +1,19 @@
 package com.nemerald.apiproject.Objects;
 
-public class Flickr {
+public class Flickr implements IFlickr {
 
 
-    private String flickrUrl = "https://api.flickr.com/services/rest/";
-    private String flickrMethod = "?method=flickr.galleries.getPhotos";
-    private String URL = "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=976f0cf74d83fe648af1f81be2cb8acb&format=json&nojsoncallback=1&per_page=50&page=1&gallery_id=72157678340527534&get_gallery_info=1";
-    private String API_KEY = "976f0cf74d83fe648af1f81be2cb8acb";
+    String FLICKR_URL = "https://api.flickr.com/services/rest/";
+    String FLICKR_API_METHOD = "?method=flickr.galleries.getPhotos";
+    String API_KEY = "&api_key=976f0cf74d83fe648af1f81be2cb8acb";
+    String responseFormat ="&format=json&nojsoncallback=1&per_page=50&page=1&gallery_id=72157678340527534&get_gallery_info=1";
 
-    public String getUrl() {
-        return URL;
+    public String getFullFlickrURL(){
+        return FLICKR_URL+FLICKR_API_METHOD+API_KEY+responseFormat;
     }
 
-    public String getAPI_KEY() {
-        return API_KEY;
+    @Override
+    public void changeMethod(String newMethod) {
+        FLICKR_API_METHOD = newMethod;
     }
 }
