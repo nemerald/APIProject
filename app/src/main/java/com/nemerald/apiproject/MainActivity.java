@@ -1,13 +1,11 @@
 package com.nemerald.apiproject;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.LruCache;
 import android.view.MenuItem;
 
 import com.nemerald.apiproject.Objects.Cache;

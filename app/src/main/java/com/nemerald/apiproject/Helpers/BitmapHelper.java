@@ -3,7 +3,6 @@ package com.nemerald.apiproject.Helpers;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.Picture;
 
 import java.io.IOException;

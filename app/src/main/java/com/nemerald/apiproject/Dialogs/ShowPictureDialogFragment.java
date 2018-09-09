@@ -1,38 +1,24 @@
 package com.nemerald.apiproject.Dialogs;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
-import org.w3c.dom.Text;
-
-import static android.R.color.darker_gray;
 import static com.nemerald.apiproject.Helpers.BitmapHelper.getBitmapFromURL;
-import static com.nemerald.apiproject.Helpers.ScreenMeasure.getScreenHeight;
-import static com.nemerald.apiproject.Helpers.ScreenMeasure.getScreenWidth;
 import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class ShowPictureDialogFragment extends DialogFragment {
