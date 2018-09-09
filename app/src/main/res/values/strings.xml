@@ -4,7 +4,7 @@
     <string name="error_message">Felmeddelande</string>
     <string name="gallery_title">Galleri</string>
     <string name="favorites_title">Favoriter</string>
-    <string name="error_max_retry_exceeded">Fel! Antalet försök</string>
+    <string name="error_max_retry_exceeded">Fel! Kunde inte ladda bilder från källa</string>
     <string name="retrying">Laddning går långsamt. Försöker igen.</string>
     <string name="no_pictures_loaded">Inga bilder laddade</string>
     <string name="picture_information">Bildinformation</string>
@@ -12,4 +12,5 @@
     <string name="confirm">Bekräfta</string>
     <string name="cancel">Avbryt</string>
     <string name="desc">Galleribild</string>
+    <string name="unkown_error">Okänt fel har inträffat</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.nemerald.apiproject.Helpers;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,22 +23,22 @@ public class HTTPRequester {
     private int mCurrentRetryCount;
     private int mMaxRetryCount = 2;
 
-
     Context context = getContext();
     private HTTPRequesterListener httpRequesterListener;
 
     public interface HTTPRequesterListener {
         void onDataLoaded(Object response);
+        void onRetrying(String message);
     }
-    public HTTPRequester(Flickr flickr){
+    public HTTPRequester(Flickr flickr, final Handler handler){
         this.httpRequesterListener = null;
-        makeGalleryRequest(flickr);
+        makeGalleryRequest(flickr, handler);
     }
     public void setHTTPRequesterListener(HTTPRequesterListener requestHelperListener) {
         this.httpRequesterListener = requestHelperListener;
     }
 
-    public void makeGalleryRequest(Flickr flickr){
+    public void makeGalleryRequest(Flickr flickr, final Handler handler){
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
@@ -57,7 +58,7 @@ public class HTTPRequester {
         req.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
-                return 50000;
+                return 3000;
             }
 
             @Override
@@ -68,11 +69,15 @@ public class HTTPRequester {
             @Override
             public void retry(VolleyError error) throws VolleyError {
                 mCurrentRetryCount++;
-                Toast.makeText(context, getContext().getString(R.string.retrying), Toast.LENGTH_SHORT).show();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(), getContext().getString(R.string.retrying), Toast.LENGTH_SHORT).show();
+                    }
+                });
                 if(mCurrentRetryCount==mMaxRetryCount){
-                    Toast.makeText(context, getContext().getString(R.string.error_max_retry_exceeded), Toast.LENGTH_SHORT).show();
+                  httpRequesterListener.onDataLoaded(error);
                 }
-                Log.d("Error", error.getMessage());
             }
         });
 

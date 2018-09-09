@@ -1,6 +1,7 @@
 package com.nemerald.apiproject;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ import com.nemerald.apiproject.Objects.Gallery;
 import com.nemerald.apiproject.Objects.Picture;
 
 import org.json.JSONObject;
+
+import static com.nemerald.apiproject.MainActivity.getContext;
 
 public class GalleryFragment extends Fragment {
 
@@ -68,19 +71,35 @@ public class GalleryFragment extends Fragment {
             Flickr flickr = new Flickr();
             flickr.setGalleryId("72157678340527534");
 
-            final HTTPRequester httpRequester = new HTTPRequester(flickr);
+            final Handler handler = new Handler();
+
+            final HTTPRequester httpRequester = new HTTPRequester(flickr, handler);
             httpRequester.setHTTPRequesterListener(new HTTPRequester.HTTPRequesterListener() {
                 @Override
-                public void onDataLoaded(Object response) {
+                public void onDataLoaded(final Object response) {
                     if (response instanceof VolleyError) {
-                        Log.d(getString(R.string.error_message),((VolleyError) response).getMessage());
-                        Toast.makeText(getContext(), errorMessageConstructor(((VolleyError) response)), Toast.LENGTH_SHORT).show();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(((VolleyError) response).getMessage()!=null){
+                                    Toast.makeText(getContext(), errorMessageConstructor(((VolleyError) response)), Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(getContext(), getString(R.string.unkown_error), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
                         galleryTitle.setText(getString(R.string.no_pictures_loaded));
                     } else {
                         initGalleryData((JSONObject) response);
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
+                }
+
+                @Override
+                public void onRetrying(final String message) {
+                    galleryTitle.setText(message);
                 }
             });
         }
