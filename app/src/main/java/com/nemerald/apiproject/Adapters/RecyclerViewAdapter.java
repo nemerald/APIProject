@@ -94,7 +94,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             int imageWidth = myBitmap.getWidth();
             int imageHeight = myBitmap.getHeight();
-            int newWidth = getScreenWidth(); //this method should return the width of device screen.
+            int newWidth = getScreenWidth();
             float scaleFactor = (float)newWidth/(float)imageWidth;
             int newHeight = (int)(imageHeight * scaleFactor);
 
