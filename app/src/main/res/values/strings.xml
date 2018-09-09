@@ -2,4 +2,6 @@
     <string name="app_name">APIProject</string>
     <string name="loading_pictures">Laddar bilder</string>
     <string name="error_message">Felmeddelande</string>
+    <string name="gallery_title">Galleri</string>
+    <string name="favorites_title">Favoriter</string>
 </resources>
