@@ -24,13 +24,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class FieldViewHolder extends RecyclerView.ViewHolder{
 
-        TextView galleryPhotoTitle;
+        //TextView galleryPhotoTitle;
         ImageView galleryPhoto;
 
         public FieldViewHolder(View itemView) {
             super(itemView);
             galleryPhoto = itemView.findViewById(R.id.gallery_photo);
-            galleryPhotoTitle = itemView.findViewById(R.id.gallery_photo_title);
+            //galleryPhotoTitle = itemView.findViewById(R.id.gallery_photo_title);
         }
         public void bind(final Picture picture, final OnItemClickListener listener) {
             //name.setText(item.name);
@@ -70,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(FieldViewHolder fieldViewHolder, int position) {
 
         fieldViewHolder.galleryPhoto.setImageBitmap(getBitmapFromURL(pictureArrayList.get(position).getPictureUrl(pictureArrayList.get(position))));
-        fieldViewHolder.galleryPhotoTitle.setText(pictureArrayList.get(position).getPicTitle());
+        //fieldViewHolder.galleryPhotoTitle.setText(pictureArrayList.get(position).getPicTitle());
         fieldViewHolder.bind(pictureArrayList.get(position), listener);
     }
 

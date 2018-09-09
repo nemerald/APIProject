@@ -2,6 +2,7 @@ package com.nemerald.apiproject;
 
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.nemerald.apiproject.Adapters.RecyclerViewAdapter;
+import com.nemerald.apiproject.Dialogs.ShowPictureDialogFragment;
 import com.nemerald.apiproject.Helpers.HTTPRequester;
 import com.nemerald.apiproject.Objects.Flickr;
 import com.nemerald.apiproject.Objects.Gallery;
@@ -109,7 +111,9 @@ public class GalleryFragment extends Fragment {
         recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Picture picture) {
-                Toast.makeText(getContext(), picture.getPicTitle(), Toast.LENGTH_SHORT).show();
+                ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture);
+                newFragment.show(getFragmentManager(), "dialog");
+                //Toast.makeText(getContext(), picture.getPicTitle(), Toast.LENGTH_SHORT).show();
             }
         }));
 

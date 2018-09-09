@@ -1,6 +1,8 @@
 package com.nemerald.apiproject.Objects;
 
-public class Picture {
+import java.io.Serializable;
+
+public class Picture implements Serializable{
 
     private String picId;
     private String picTitle;
