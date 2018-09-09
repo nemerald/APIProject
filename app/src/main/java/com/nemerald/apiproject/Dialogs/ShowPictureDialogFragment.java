@@ -5,23 +5,35 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
 import org.w3c.dom.Text;
 
 import static android.R.color.darker_gray;
+import static com.nemerald.apiproject.Helpers.BitmapHelper.getBitmapFromURL;
+import static com.nemerald.apiproject.Helpers.ScreenMeasure.getScreenHeight;
+import static com.nemerald.apiproject.Helpers.ScreenMeasure.getScreenWidth;
+import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class ShowPictureDialogFragment extends DialogFragment {
 
@@ -39,64 +51,48 @@ public class ShowPictureDialogFragment extends DialogFragment {
 
         final Picture picture = (Picture) getArguments().getSerializable("picture");
 
+        final LinearLayout root = new LinearLayout(getActivity());
+        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        @SuppressLint("InflateParams")
         View alertCustomLayout = inflater.inflate(R.layout.custom_show_picture_dialog, null);
 
         final TextView pictureTitle = alertCustomLayout.findViewById(R.id.photoTitle);
+        final ImageView pickedImage = alertCustomLayout.findViewById(R.id.pickedImage);
+
+        Bitmap bitmap = getCache().getBitmapFromMemCache(picture.getPicId());
+        if(bitmap != null){
+            pickedImage.setImageBitmap(bitmap);
+        }
+        else{
+            bitmap = getBitmapFromURL(picture);
+            pickedImage.setImageBitmap(bitmap);
+        }
 
         pictureTitle.setText(String.format(getString(R.string.picture_title), picture.getPicTitle()));
 
+        alertCustomLayout.requestFocus();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
-        builder.setView(alertCustomLayout);
-        builder.setTitle(getString(R.string.picture_information));
-        builder.setCancelable(false);
-        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(root);
+        dialog.setContentView(alertCustomLayout);
+        dialog.show();
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*if (checkIfUserPickedAllInputInFreeKickDialog(rgGroupTeam.getCheckedRadioButtonId())) {
-                    Team team = match.team1;
-                    if (rbAwayTeam.isChecked()) {
-                        team = match.team2;
-                    }
-                    Player player = new FutsalPlayer("", "", "", team, -1);
-                    match.addEvent(new FreeKick(-1, player, HelpMethods.getPeriod(match)));
-                    Toast.makeText(getActivity(), getString(R.string.freekick_event_added), Toast.LENGTH_LONG).show();
-
-                    alertDialog.dismiss();
-                } else {
-                    vibrate(getActivity(), getString(R.string.error_vibrate));
-                    Toast.makeText(getActivity(), getString(R.string.error_user_input_pick_team), Toast.LENGTH_LONG).show();
-                }*/
-            }
-        });
-
-        return alertDialog;
+        return dialog;
     }
     @SuppressLint("ResourceType")
     @Override
     public void onStart() {
         super.onStart();
 
-        super.onStart();
+        Dialog d = getDialog();
+        if(d!=null){
+            int width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            d.getWindow().setLayout(width, height);
+        }
 
         final Resources res = getResources();
 

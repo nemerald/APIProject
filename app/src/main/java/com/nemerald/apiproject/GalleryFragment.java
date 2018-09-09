@@ -2,7 +2,6 @@ package com.nemerald.apiproject;
 
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -86,6 +85,21 @@ public class GalleryFragment extends Fragment {
             });
         }
     }
+    private void initGalleryData(JSONObject response) {
+        gallery = new Gallery(response);
+        galleryTitle.setText(gallery.getGalleryTitle());
+        initializeAdapter();
+
+    }
+    private void initializeAdapter() {
+        recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Picture picture) {
+                ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture);
+                newFragment.show(getFragmentManager(), "dialog");
+            }
+        }));
+    }
     private String errorMessageConstructor(VolleyError error) {
         //Constructing error message depending on the information availible from the Class. Some of the errors holds networks status code, some dont.
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -100,22 +114,5 @@ public class GalleryFragment extends Fragment {
             return error.getMessage();
         }
         return error.getMessage();
-    }
-    private void initGalleryData(JSONObject response) {
-        gallery = new Gallery(response);
-        galleryTitle.setText(gallery.getGalleryTitle());
-        initializeAdapter();
-
-    }
-    private void initializeAdapter() {
-        recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Picture picture) {
-                ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture);
-                newFragment.show(getFragmentManager(), "dialog");
-                //Toast.makeText(getContext(), picture.getPicTitle(), Toast.LENGTH_SHORT).show();
-            }
-        }));
-
     }
 }

@@ -8,7 +8,7 @@
     <string name="retrying">Laddning går långsamt. Försöker igen.</string>
     <string name="no_pictures_loaded">Inga bilder laddade</string>
     <string name="picture_information">Bildinformation</string>
-    <string name="picture_title">Titel: %s</string>
+    <string name="picture_title">Bildtitel: %s</string>
     <string name="confirm">Bekräfta</string>
     <string name="cancel">Avbryt</string>
     <string name="desc">Galleribild</string>
