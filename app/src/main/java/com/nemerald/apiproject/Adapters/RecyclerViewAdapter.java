@@ -1,16 +1,18 @@
 package com.nemerald.apiproject.Adapters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.CardView;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.nemerald.apiproject.MainActivity;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
@@ -18,7 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.List;
+
+import static com.nemerald.apiproject.MainActivity.getContext;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.FieldViewHolder> {
 
@@ -88,10 +91,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             connection.connect();
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+            int imageWidth = myBitmap.getWidth();
+            int imageHeight = myBitmap.getHeight();
+            int newWidth = getScreenWidth(); //this method should return the width of device screen.
+            float scaleFactor = (float)newWidth/(float)imageWidth;
+            int newHeight = (int)(imageHeight * scaleFactor);
+
+            myBitmap = Bitmap.createScaledBitmap(myBitmap, newWidth, newHeight, true);
+
             return myBitmap;
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private int getScreenWidth() {
+        Display display = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay();
+
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        return width;
     }
 }
