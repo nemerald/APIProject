@@ -14,6 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.nemerald.apiproject.Adapters.RecyclerViewAdapter;
 import com.nemerald.apiproject.Helpers.HTTPRequester;
@@ -51,8 +57,7 @@ public class GalleryFragment extends Fragment {
         recyclerView.setLayoutManager(llm);
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -66,18 +71,33 @@ public class GalleryFragment extends Fragment {
             httpRequester.setHTTPRequesterListener(new HTTPRequester.HTTPRequesterListener() {
                 @Override
                 public void onDataLoaded(Object response) {
-                    if(!response.getClass().isInstance(VolleyError.class)){
+                    if (response instanceof VolleyError) {
+                        Log.d(getString(R.string.error_message),((VolleyError) response).getMessage());
+                        Toast.makeText(getContext(), errorMessageConstructor(((VolleyError) response)), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
+                        galleryTitle.setText(getString(R.string.no_pictures_loaded));
+                    } else {
                         initGalleryData((JSONObject) response);
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
-                    }
-                    else{
-                        progressBar.setVisibility(ProgressBar.INVISIBLE);
-                        Log.d(getString(R.string.error_message),((VolleyError) response).getMessage());
-                        Toast.makeText(getContext(), ((VolleyError) response).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+    private String errorMessageConstructor(VolleyError error) {
+        //Constructing error message depending on the information availible from the Class. Some of the errors holds networks status code, some dont.
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            return error.getMessage();
+        } else if (error instanceof AuthFailureError) {
+            return error.getMessage();
+        } else if (error instanceof ServerError) {
+            return error.getMessage();
+        } else if (error instanceof NetworkError) {
+            return error.getMessage();
+        } else if (error instanceof ParseError) {
+            return error.getMessage();
+        }
+        return error.getMessage();
     }
     private void initGalleryData(JSONObject response) {
         gallery = new Gallery(response);

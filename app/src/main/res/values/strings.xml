@@ -4,4 +4,7 @@
     <string name="error_message">Felmeddelande</string>
     <string name="gallery_title">Galleri</string>
     <string name="favorites_title">Favoriter</string>
+    <string name="error_max_retry_exceeded">Fel! Antalet försök</string>
+    <string name="retrying">Laddning går långsamt. Försöker igen.</string>
+    <string name="no_pictures_loaded">Inga bilder laddade</string>
 </resources>
