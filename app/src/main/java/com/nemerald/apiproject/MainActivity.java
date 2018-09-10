@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
         updateToolbarText(getResources().getString(R.string.gallery_title));
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mContext = this;
