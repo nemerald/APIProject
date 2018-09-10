@@ -1,5 +1,9 @@
 package com.nemerald.apiproject;
 
+import com.nemerald.apiproject.Objects.Gallery;
+import com.nemerald.apiproject.Objects.Picture;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
