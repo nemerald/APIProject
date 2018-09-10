@@ -18,4 +18,5 @@
     <string name="removed_favorite">Favorit borttagen</string>
     <string name="remove_favorite">Ta bort favorit</string>
     <string name="favorite_gallery">Mina favoriter</string>
+    <string name="favorite_gallery_tag">favorite_gallery</string>
 </resources>

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
+import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
@@ -37,27 +40,38 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     };
 
     private void updateToolbarText(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setTitle(title);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(toolbar!=null){
+            toolbar.setTitle(title);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
         updateToolbarText(getResources().getString(R.string.gallery_title));
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationViewBehavior());
+
         mContext = this;
-        mCache = new Cache();
-        favorite_gallery = new FavoriteGallery();
-        favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
+
+        if(savedInstanceState==null){
+
+            getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
+
+            mCache = new Cache();
+            favorite_gallery = new FavoriteGallery();
+            favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
+        }else{
+
+        }
     }
     public static Context getContext(){
         return mContext;
@@ -67,5 +81,10 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public FavoriteGallery fetchFavoriteGallery() {
         return favorite_gallery;
+    }
+
+    @Override
+    public void saveFavoriteGallery(FavoriteGallery favoriteGallery) {
+        favorite_gallery = favoriteGallery;
     }
 }

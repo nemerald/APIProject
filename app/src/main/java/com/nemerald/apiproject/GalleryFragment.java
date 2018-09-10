@@ -58,6 +58,11 @@ public class GalleryFragment extends Fragment {
         super.onDetach();
     }
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(getString(R.string.favorite_gallery_tag), favoriteGallery);
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_gallery, container, false);
@@ -74,7 +79,12 @@ public class GalleryFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
 
-        favoriteGallery = mCallback.fetchFavoriteGallery();
+        if(savedInstanceState!=null){
+            favoriteGallery = (FavoriteGallery) savedInstanceState.getSerializable(getString(R.string.favorite_gallery_tag));
+        }
+        else{
+            favoriteGallery = mCallback.fetchFavoriteGallery();
+        }
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
@@ -115,6 +125,13 @@ public class GalleryFragment extends Fragment {
             });
         }
     }
+
+    /**/@Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCallback.saveFavoriteGallery(favoriteGallery);
+    }
+
     private void initGalleryData(JSONObject response) {
         gallery = new Gallery(response);
         galleryTitle.setText(gallery.getGalleryTitle());

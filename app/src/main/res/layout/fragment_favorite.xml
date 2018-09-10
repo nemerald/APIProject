@@ -1,8 +1,8 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.nemerald.apiproject.FavoriteFragment"
     android:background="@android:color/white">
     <RelativeLayout
@@ -19,6 +19,7 @@
             android:id="@+id/favorite_fragment_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/favoriteGalleryTitle" />
+            android:layout_below="@+id/favoriteGalleryTitle"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </RelativeLayout>
 </FrameLayout>

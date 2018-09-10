@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import com.nemerald.apiproject.Dialogs.ShowPictureDialogFragment;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.Picture;
 
-public class FavoriteFragment extends Fragment {
+import java.io.Serializable;
+
+public class FavoriteFragment extends Fragment{
 
     TextView galleryTitle;
     RecyclerView recyclerView;
@@ -49,17 +52,48 @@ public class FavoriteFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        galleryTitle = view.findViewById(R.id.favoriteGalleryTitle);
-        recyclerView = view.findViewById(R.id.favorite_fragment_recycler_view);
+        if(savedInstanceState!=null)
+        {
+            //handle your data on screen rotation
+            galleryTitle = view.findViewById(R.id.favoriteGalleryTitle);
+            recyclerView = view.findViewById(R.id.favorite_fragment_recycler_view);
 
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(llm);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(llm);
 
-        favoriteGallery = mCallback.fetchFavoriteGallery();
-        galleryTitle.setText(favoriteGallery.getGalleryTitle());
+            favoriteGallery = (FavoriteGallery) savedInstanceState.getSerializable(getString(R.string.favorite_gallery_tag));
+            if(favoriteGallery!=null){
+                galleryTitle.setText(favoriteGallery.getGalleryTitle());
+            }
+            else{
+                favoriteGallery = mCallback.fetchFavoriteGallery();
+                galleryTitle.setText(favoriteGallery.getGalleryTitle());
+            }
+
+        }else{
+            galleryTitle = view.findViewById(R.id.favoriteGalleryTitle);
+            recyclerView = view.findViewById(R.id.favorite_fragment_recycler_view);
+
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(llm);
+
+            favoriteGallery = mCallback.fetchFavoriteGallery();
+            galleryTitle.setText(favoriteGallery.getGalleryTitle());
+        }
 
         initializeAdapter();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCallback.saveFavoriteGallery(favoriteGallery);
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(getString(R.string.favorite_gallery_tag), favoriteGallery);
     }
     public void initializeAdapter() {
         recyclerView.setAdapter(new RecyclerViewAdapter(favoriteGallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
