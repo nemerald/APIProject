@@ -2,7 +2,6 @@ package com.nemerald.apiproject.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nemerald.apiproject.FragmentCommunicator;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
