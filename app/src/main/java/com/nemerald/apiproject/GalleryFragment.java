@@ -95,7 +95,7 @@ public class GalleryFragment extends Fragment {
             galleryTitle.setText(getString(R.string.loading_pictures));
 
             Flickr flickr = new Flickr();
-            flickr.setGalleryId("72157678340527534");
+            flickr.setGalleryId(getString(R.string.puppy_gallery_id));
 
             final Handler handler = new Handler();
 
