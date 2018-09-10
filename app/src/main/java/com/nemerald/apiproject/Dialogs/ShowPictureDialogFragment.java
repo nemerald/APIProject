@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nemerald.apiproject.FragmentCommunicator;
+import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
@@ -24,11 +27,12 @@ import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class ShowPictureDialogFragment extends DialogFragment {
 
-    public static ShowPictureDialogFragment newInstance(Picture picture){
+    public static ShowPictureDialogFragment newInstance(Picture picture, FavoriteGallery favoriteGallery){
         ShowPictureDialogFragment showPictureDialogFragment = new ShowPictureDialogFragment();
 
         Bundle args = new Bundle();
         args.putSerializable("picture", picture);
+        args.putSerializable("favoriteGallery", favoriteGallery);
         showPictureDialogFragment.setArguments(args);
 
         return showPictureDialogFragment;
@@ -37,6 +41,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         final Picture picture = (Picture) getArguments().getSerializable("picture");
+        final FavoriteGallery favoriteGallery = (FavoriteGallery) getArguments().getSerializable("favoriteGallery");
 
         final LinearLayout root = new LinearLayout(getActivity());
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -69,6 +74,14 @@ public class ShowPictureDialogFragment extends DialogFragment {
         pickedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        makeFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
+                favoriteGallery.addFavoritePictureToGallery(picture);
                 dialog.dismiss();
             }
         });

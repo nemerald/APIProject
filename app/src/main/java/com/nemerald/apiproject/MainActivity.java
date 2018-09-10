@@ -9,11 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.nemerald.apiproject.Objects.Cache;
+import com.nemerald.apiproject.Objects.FavoriteGallery;
+import com.nemerald.apiproject.Objects.Gallery;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
     public static Context mContext;
     public static Cache mCache;
+    public FavoriteGallery favorite_gallery;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,9 +57,16 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
         mCache = new Cache();
+        favorite_gallery = new FavoriteGallery();
+        favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
     }
     public static Context getContext(){
         return mContext;
     }
     public static Cache getCache() { return mCache;}
+
+    @Override
+    public FavoriteGallery fetchFavoriteGallery() {
+        return favorite_gallery;
+    }
 }

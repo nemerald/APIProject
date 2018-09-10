@@ -4,13 +4,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Gallery {
+public class Gallery implements Serializable{
 
     private String galleryTitle;
-    private ArrayList<Picture> pictureArrayList = new ArrayList<>();
+    ArrayList<Picture> pictureArrayList = new ArrayList<>();
 
+    public Gallery() {
+
+    }
     public Gallery(JSONObject response){
         try {
             setGalleryTitle(response.getJSONObject("gallery").getJSONObject("title").getString("_content"));
@@ -50,4 +54,5 @@ public class Gallery {
     public void setGalleryTitle(String galleryTitle) {
         this.galleryTitle = galleryTitle;
     }
+
 }

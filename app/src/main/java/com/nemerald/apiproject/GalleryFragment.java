@@ -1,5 +1,6 @@
 package com.nemerald.apiproject;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -25,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.nemerald.apiproject.Adapters.RecyclerViewAdapter;
 import com.nemerald.apiproject.Dialogs.ShowPictureDialogFragment;
 import com.nemerald.apiproject.Helpers.HTTPRequester;
+import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.Flickr;
 import com.nemerald.apiproject.Objects.Gallery;
 import com.nemerald.apiproject.Objects.Picture;
@@ -39,10 +41,25 @@ public class GalleryFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     Gallery gallery;
+    FavoriteGallery favoriteGallery;
+    FragmentCommunicator mCallback;
 
-    public GalleryFragment() {
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (FragmentCommunicator) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement FragmentCommunicator");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +76,8 @@ public class GalleryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
+
+        favoriteGallery = mCallback.fetchFavoriteGallery();
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
@@ -114,7 +133,7 @@ public class GalleryFragment extends Fragment {
         recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Picture picture) {
-                ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture);
+                ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture, favoriteGallery);
                 newFragment.show(getFragmentManager(), "dialog");
             }
         }));
