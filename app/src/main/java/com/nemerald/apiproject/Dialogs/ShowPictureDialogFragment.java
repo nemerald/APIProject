@@ -2,6 +2,7 @@ package com.nemerald.apiproject.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -53,6 +54,10 @@ public class ShowPictureDialogFragment extends DialogFragment {
         final ImageView pickedImage = alertCustomLayout.findViewById(R.id.pickedImage);
         final Button makeFavorite = alertCustomLayout.findViewById(R.id.makeFavorite);
 
+        if(checkIfPictureIsFavorite(favoriteGallery, picture)){
+            makeFavorite.setText(R.string.remove_favorite);
+        }
+
         alertCustomLayout.requestFocus();
 
         final Dialog dialog = new Dialog(getActivity());
@@ -80,14 +85,30 @@ public class ShowPictureDialogFragment extends DialogFragment {
         makeFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
-                favoriteGallery.addFavoritePictureToGallery(picture);
+                if(makeFavorite.getText().toString().matches(getString(R.string.remove_favorite))){
+                    Toast.makeText(getContext(), getString(R.string.removed_favorite), Toast.LENGTH_SHORT).show();
+                    favoriteGallery.removeFavoritePictureInGallery(picture);
+                }
+                else{
+                    Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
+                    favoriteGallery.addFavoritePictureToGallery(picture);
+                }
                 dialog.dismiss();
             }
         });
 
         return dialog;
     }
+
+    private boolean checkIfPictureIsFavorite(FavoriteGallery favoriteGallery, Picture picture) {
+        for (Picture controlPicture: favoriteGallery.getPictureArrayList()) {
+            if(controlPicture.getPicId().matches(picture.getPicId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @SuppressLint("ResourceType")
     @Override
     public void onStart() {

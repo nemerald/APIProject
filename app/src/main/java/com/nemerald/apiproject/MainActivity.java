@@ -6,11 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
-import com.nemerald.apiproject.Objects.Gallery;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 

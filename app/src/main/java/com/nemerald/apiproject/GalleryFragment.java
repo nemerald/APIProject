@@ -115,11 +115,6 @@ public class GalleryFragment extends Fragment {
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 }
-
-                @Override
-                public void onRetrying(final String message) {
-                    galleryTitle.setText(message);
-                }
             });
         }
     }

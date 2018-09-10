@@ -61,7 +61,7 @@ public class FavoriteFragment extends Fragment {
 
         initializeAdapter();
     }
-    private void initializeAdapter() {
+    public void initializeAdapter() {
         recyclerView.setAdapter(new RecyclerViewAdapter(favoriteGallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Picture picture) {

@@ -15,5 +15,7 @@
     <string name="unkown_error">Okänt fel har inträffat</string>
     <string name="mark_as_favorite">Favoritmarkera</string>
     <string name="new_favorite">Favoritmarkerad</string>
+    <string name="removed_favorite">Favorit borttagen</string>
+    <string name="remove_favorite">Ta bort favorit</string>
     <string name="favorite_gallery">Mina favoriter</string>
 </resources>

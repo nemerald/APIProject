@@ -28,7 +28,6 @@ public class HTTPRequester {
 
     public interface HTTPRequesterListener {
         void onDataLoaded(Object response);
-        void onRetrying(String message);
     }
     public HTTPRequester(Flickr flickr, final Handler handler){
         this.httpRequesterListener = null;
