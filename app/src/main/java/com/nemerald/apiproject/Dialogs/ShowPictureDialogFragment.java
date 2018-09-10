@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +46,15 @@ public class ShowPictureDialogFragment extends DialogFragment {
 
         final TextView pictureTitle = alertCustomLayout.findViewById(R.id.photoTitle);
         final ImageView pickedImage = alertCustomLayout.findViewById(R.id.pickedImage);
+        final Button makeFavorite = alertCustomLayout.findViewById(R.id.makeFavorite);
+
+        alertCustomLayout.requestFocus();
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(root);
+        dialog.setContentView(alertCustomLayout);
+        dialog.show();
 
         Bitmap bitmap = getCache().getBitmapFromMemCache(picture.getPicId());
         if(bitmap != null){
@@ -56,14 +66,12 @@ public class ShowPictureDialogFragment extends DialogFragment {
         }
 
         pictureTitle.setText(String.format(getString(R.string.picture_title), picture.getPicTitle()));
-
-        alertCustomLayout.requestFocus();
-
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(root);
-        dialog.setContentView(alertCustomLayout);
-        dialog.show();
+        pickedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         return dialog;
     }

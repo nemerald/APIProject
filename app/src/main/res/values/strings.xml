@@ -13,4 +13,5 @@
     <string name="cancel">Avbryt</string>
     <string name="desc">Galleribild</string>
     <string name="unkown_error">Okänt fel har inträffat</string>
+    <string name="mark_as_favorite">Favoritmarkera</string>
 </resources>
