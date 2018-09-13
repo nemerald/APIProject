@@ -16,28 +16,25 @@ import com.nemerald.apiproject.R;
 
 import org.json.JSONObject;
 
-import static com.nemerald.apiproject.MainActivity.getContext;
-
 public class HTTPRequester {
 
     private int mCurrentRetryCount;
     private int mMaxRetryCount = 2;
 
-    Context context = getContext();
     private HTTPRequesterListener httpRequesterListener;
 
     public interface HTTPRequesterListener {
         void onDataLoaded(Object response);
     }
-    public HTTPRequester(Flickr flickr, final Handler handler){
+    public HTTPRequester(Flickr flickr, final Handler handler, Context context){
         this.httpRequesterListener = null;
-        makeGalleryRequest(flickr, handler);
+        makeGalleryRequest(flickr, handler, context);
     }
     public void setHTTPRequesterListener(HTTPRequesterListener requestHelperListener) {
         this.httpRequesterListener = requestHelperListener;
     }
 
-    public void makeGalleryRequest(Flickr flickr, final Handler handler){
+    private void makeGalleryRequest(Flickr flickr, final Handler handler, final Context context){
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
@@ -71,7 +68,7 @@ public class HTTPRequester {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), getContext().getString(R.string.retrying), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.retrying), Toast.LENGTH_SHORT).show();
                     }
                 });
                 if(mCurrentRetryCount==mMaxRetryCount){

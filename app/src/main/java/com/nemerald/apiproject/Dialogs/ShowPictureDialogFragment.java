@@ -17,11 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nemerald.apiproject.Helpers.BitmapHelper;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
-import static com.nemerald.apiproject.Helpers.BitmapHelper.getBitmapFromURL;
 import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class ShowPictureDialogFragment extends DialogFragment {
@@ -69,7 +69,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
             pickedImage.setImageBitmap(bitmap);
         }
         else{
-            bitmap = getBitmapFromURL(picture);
+            bitmap = new BitmapHelper().getBitmapFromURL(picture, getContext());
             pickedImage.setImageBitmap(bitmap);
         }
 

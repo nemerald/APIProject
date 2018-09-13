@@ -16,7 +16,6 @@ import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
-    public static Context mContext;
     public static Cache mCache;
     public FavoriteGallery favorite_gallery;
 
@@ -50,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_main);
         updateToolbarText(getResources().getString(R.string.gallery_title));
 
@@ -60,21 +61,12 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationViewBehavior());
 
-        mContext = this;
-
         if(savedInstanceState==null){
-
             getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
-
             mCache = new Cache();
             favorite_gallery = new FavoriteGallery();
             favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
-        }else{
-
         }
-    }
-    public static Context getContext(){
-        return mContext;
     }
     public static Cache getCache() { return mCache;}
 

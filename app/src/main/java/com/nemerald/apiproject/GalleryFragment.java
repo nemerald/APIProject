@@ -99,7 +99,7 @@ public class GalleryFragment extends Fragment {
 
             final Handler handler = new Handler();
 
-            final HTTPRequester httpRequester = new HTTPRequester(flickr, handler);
+            final HTTPRequester httpRequester = new HTTPRequester(flickr, handler, getContext());
             httpRequester.setHTTPRequesterListener(new HTTPRequester.HTTPRequesterListener() {
                 @Override
                 public void onDataLoaded(final Object response) {
@@ -139,7 +139,7 @@ public class GalleryFragment extends Fragment {
 
     }
     private void initializeAdapter() {
-        recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), new RecyclerViewAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(new RecyclerViewAdapter(gallery.getPictureArrayList(), getContext(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Picture picture) {
                 ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture, favoriteGallery);

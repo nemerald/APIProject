@@ -1,5 +1,6 @@
 package com.nemerald.apiproject.Adapters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,18 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.nemerald.apiproject.Helpers.BitmapHelper;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
 import java.util.ArrayList;
 
-import static com.nemerald.apiproject.Helpers.BitmapHelper.getBitmapFromURL;
 import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.FieldViewHolder> {
 
     ArrayList<Picture> pictureArrayList;
     OnItemClickListener listener;
+    Context context;
 
     public static class FieldViewHolder extends RecyclerView.ViewHolder{
 
@@ -40,9 +42,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         void onItemClick(Picture picture);
     }
 
-    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList, OnItemClickListener listener){
+    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList, Context context,OnItemClickListener listener){
         this.pictureArrayList = pictureArrayList;
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -53,8 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public FieldViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        FieldViewHolder fvh = new FieldViewHolder(v);
-        return fvh;
+        return new FieldViewHolder(v);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
         }
         else{
-            bitmap = getBitmapFromURL(pictureArrayList.get(position));
+            bitmap = new BitmapHelper().getBitmapFromURL(pictureArrayList.get(position), context);
             fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
         }
 
