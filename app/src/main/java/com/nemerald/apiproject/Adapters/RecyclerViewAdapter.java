@@ -18,9 +18,9 @@ import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.FieldViewHolder> {
 
-    ArrayList<Picture> pictureArrayList;
-    OnItemClickListener listener;
-    Context context;
+    private ArrayList<Picture> pictureArrayList;
+    private OnItemClickListener listener;
+    private Context context;
 
     public static class FieldViewHolder extends RecyclerView.ViewHolder{
 

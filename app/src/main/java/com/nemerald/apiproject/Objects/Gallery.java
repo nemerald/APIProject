@@ -30,7 +30,7 @@ public class Gallery implements Serializable{
                 JSONObject pictureData = dataArray.getJSONObject(counter);
                 addPictureToGalleryList(new Picture(pictureData.getString("id"), pictureData.getString("title"),
                                                     pictureData.getString("farm"), pictureData.getString("server"),
-                                                    pictureData.getString("owner"), pictureData.getString("secret")));
+                                                    pictureData.getString("secret")));
 
             } catch (JSONException e) {
                 e.printStackTrace();

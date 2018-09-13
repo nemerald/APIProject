@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-import static com.nemerald.apiproject.Helpers.ScreenMeasure.getScreenWidth;
 import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class BitmapHelper {
 
     public Bitmap getBitmapFromURL(Picture picture, Context context) {
         try {
+            ScreenMeasure screenMeasure = new ScreenMeasure();
             java.net.URL url = new java.net.URL(picture.getPictureUrl(picture));
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
@@ -27,10 +27,10 @@ public class BitmapHelper {
 
             int imageWidth = myBitmap.getWidth();
             int imageHeight = myBitmap.getHeight();
-            float scaleFactor = (float)getScreenWidth(context)/(float)imageWidth;
+            float scaleFactor = (float)screenMeasure.getScreenWidth(context)/(float)imageWidth;
             int newHeight = (int)(imageHeight * scaleFactor);
 
-            myBitmap = Bitmap.createScaledBitmap(myBitmap, getScreenWidth(context), newHeight, true);
+            myBitmap = Bitmap.createScaledBitmap(myBitmap, screenMeasure.getScreenWidth(context), newHeight, true);
 
             getCache().addBitmapToMemoryCache(picture.getPicId(), myBitmap);
 

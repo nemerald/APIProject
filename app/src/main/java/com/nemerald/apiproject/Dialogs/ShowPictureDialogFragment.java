@@ -52,7 +52,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
         final ImageView pickedImage = alertCustomLayout.findViewById(R.id.pickedImage);
         final Button makeFavorite = alertCustomLayout.findViewById(R.id.makeFavorite);
 
-        if(checkIfPictureIsFavorite(favoriteGallery, picture)){
+        if(noNulls(picture, favoriteGallery) && checkIfPictureIsFavorite(favoriteGallery, picture)){
             makeFavorite.setText(R.string.remove_favorite);
         }
 
@@ -89,13 +89,18 @@ public class ShowPictureDialogFragment extends DialogFragment {
                 }
                 else{
                     Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
-                    favoriteGallery.addFavoritePictureToGallery(picture);
+                    favoriteGallery.addPictureToGalleryList(picture);
                 }
                 dialog.dismiss();
             }
         });
 
         return dialog;
+    }
+
+    private boolean noNulls(Picture picture, FavoriteGallery favoriteGallery) {
+
+    return picture!=null && favoriteGallery!=null;
     }
 
     private boolean checkIfPictureIsFavorite(FavoriteGallery favoriteGallery, Picture picture) {

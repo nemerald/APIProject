@@ -8,16 +8,14 @@ public class Picture implements Serializable{
     private String picTitle;
     private String farm;
     private String server;
-    private String pictureOwner;
     private String secret;
 
 
-    public Picture(String picId, String picTitle, String farm, String server, String pictureOwner, String secret){
+    public Picture(String picId, String picTitle, String farm, String server, String secret){
         this.picId = picId;
         this.picTitle = picTitle;
         this.farm = farm;
         this.server = server;
-        this.pictureOwner = pictureOwner;
         this.secret = secret;
     }
 
@@ -35,10 +33,6 @@ public class Picture implements Serializable{
 
     private String getServer() {
         return server;
-    }
-
-    public String getPictureOwner() {
-        return pictureOwner;
     }
 
     private String getSecret() {
