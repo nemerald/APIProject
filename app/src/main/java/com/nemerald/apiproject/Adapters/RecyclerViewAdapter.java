@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         void onItemClick(Picture picture);
     }
 
-    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList, Context context,OnItemClickListener listener){
+    public RecyclerViewAdapter(ArrayList<Picture> pictureArrayList, Context context, OnItemClickListener listener){
         this.pictureArrayList = pictureArrayList;
         this.listener = listener;
         this.context = context;

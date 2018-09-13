@@ -8,11 +8,13 @@ public class Flickr implements IFlickr {
         return FLICKR_URL+FLICKR_API_METHOD+API_KEY+getGalleryId();
     }
 
-    public String getGalleryId() {
-        return String.format("&format=json&nojsoncallback=1&per_page=50&page=1&gallery_id=%s&get_gallery_info=1", galleryId);
-    }
-
+    @Override
     public void setGalleryId(String galleryId) {
         this.galleryId = galleryId;
+    }
+
+    @Override
+    public String getGalleryId() {
+        return String.format("&format=json&nojsoncallback=1&per_page=50&page=1&gallery_id=%s&get_gallery_info=1", galleryId);
     }
 }

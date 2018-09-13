@@ -29,11 +29,11 @@ public class Picture implements Serializable{
         return picTitle;
     }
 
-    public String getFarm() {
+    private String getFarm() {
         return farm;
     }
 
-    public String getServer() {
+    private String getServer() {
         return server;
     }
 
@@ -41,7 +41,7 @@ public class Picture implements Serializable{
         return pictureOwner;
     }
 
-    public String getSecret() {
+    private String getSecret() {
         return secret;
     }
 
