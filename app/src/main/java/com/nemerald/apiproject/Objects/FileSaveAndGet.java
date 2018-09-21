@@ -2,16 +2,18 @@ package com.nemerald.apiproject.Objects;
 
 import android.content.Context;
 
-public class FileSaveAndGet implements IFileSaver {
+public class FileSaveAndGet implements IFileSaveAndGet {
 
     private String fileName;
     private String fileFullPath;
+    private String fileId;
     Context context;
 
     public FileSaveAndGet(Context context, String fileName){
         this.context = context;
         setFileName(fileName);
         setFileFullPath();
+        setFileId(fileName);
     }
 
     public String getAlbumName(){
@@ -46,5 +48,14 @@ public class FileSaveAndGet implements IFileSaver {
     @Override
     public String getFileFullPath() {
         return fileFullPath;
+    }
+    @Override
+    public void setFileId(String fileName) {
+        fileId = fileName;
+    }
+
+    @Override
+    public String getFileId() {
+        return fileId;
     }
 }

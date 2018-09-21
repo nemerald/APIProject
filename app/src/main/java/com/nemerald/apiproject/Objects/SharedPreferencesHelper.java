@@ -3,13 +3,6 @@ package com.nemerald.apiproject.Objects;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.nemerald.apiproject.R;
-
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class SharedPreferencesHelper implements ISharedPreferencesHelper{
 
     SharedPreferences.Editor editor;
@@ -21,15 +14,10 @@ public class SharedPreferencesHelper implements ISharedPreferencesHelper{
     public SharedPreferences getSharedPreferences() {
         return context.getSharedPreferences(getSharedPrefsKey(), Context.MODE_PRIVATE);
     }
-    public void saveToSharedPrefs(ArrayList<Picture> pictureArrayList){
+    public void saveToSharedPrefs(FileSaveAndGet fileSaveAndGet){
         editor = getSharedPreferencesEditor();
-        editor.putString(getSharedFavoriteGalleryKey(),parseListToJSON(pictureArrayList));
+        editor.putString(fileSaveAndGet.getFileId(), fileSaveAndGet.getFileFullPath());
         editor.commit();
-    }
-    private String parseListToJSON(ArrayList<Picture> pictureArrayList) {
-        JSONObject pictureObj = new JSONObject();
-
-        return pictureObj.toString();
     }
     private SharedPreferences.Editor getSharedPreferencesEditor(){
         return getSharedPreferences().edit();

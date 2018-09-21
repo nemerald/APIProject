@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.nemerald.apiproject.Objects.FileSaveAndGet;
+import com.nemerald.apiproject.Objects.SharedPreferencesHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,9 +25,11 @@ public class SaveFileToStorage {
     }
     public boolean savePictureFileToStorage(Bitmap bitmap){
         FileOutputStream fos = null;
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(context);
         try {
             fos = getPictureOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            sharedPreferencesHelper.saveToSharedPrefs(fileSaveAndGet);
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
