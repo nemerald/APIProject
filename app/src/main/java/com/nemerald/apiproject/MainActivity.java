@@ -15,6 +15,9 @@ import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.SharedPreferencesHelper;
 import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 
+import java.io.File;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
     public static Cache mCache;
@@ -61,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationViewBehavior());
+        SharedPreferences shared = new SharedPreferencesHelper(this).getSharedPreferences();
+
+        if(shared!=null){
+            getPicturesForFavoriteGallery(shared.getAll());
+        }
+
 
         if(savedInstanceState==null){
             getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
@@ -69,6 +78,14 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
         }
     }
+
+    private void getPicturesForFavoriteGallery(Map<String, ?> all) {
+        for(Map.Entry<String,?> entry : all.entrySet()){
+            File file = new File(entry.getKey());
+            String test = file.toString();
+        }
+    }
+
     public static Cache getCache() { return mCache;}
 
     @Override
