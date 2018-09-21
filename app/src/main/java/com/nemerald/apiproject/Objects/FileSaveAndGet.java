@@ -2,13 +2,13 @@ package com.nemerald.apiproject.Objects;
 
 import android.content.Context;
 
-public class FileSaver implements IFileSaver {
+public class FileSaveAndGet implements IFileSaver {
 
     private String fileName;
     private String fileFullPath;
     Context context;
 
-    public FileSaver(Context context, String fileName){
+    public FileSaveAndGet(Context context, String fileName){
         this.context = context;
         setFileName(fileName);
         setFileFullPath();

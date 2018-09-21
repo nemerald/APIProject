@@ -20,11 +20,9 @@ import android.widget.Toast;
 import com.nemerald.apiproject.Helpers.BitmapHelper;
 import com.nemerald.apiproject.Helpers.SaveFileToStorage;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
-import com.nemerald.apiproject.Objects.FileSaver;
+import com.nemerald.apiproject.Objects.FileSaveAndGet;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
-
-import java.io.FileNotFoundException;
 
 import static com.nemerald.apiproject.MainActivity.getCache;
 
@@ -96,7 +94,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
                 else{
                     Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
                     favoriteGallery.addPictureToGalleryList(picture);
-                    saveFileToStorage = new SaveFileToStorage(new FileSaver(getContext(), picture.getPicId()), new BitmapHelper().getBitmapFromURL(picture, getContext()), getContext());
+                    saveFileToStorage = new SaveFileToStorage(new FileSaveAndGet(getContext(), picture.getPicId()), new BitmapHelper().getBitmapFromURL(picture, getContext()), getContext());
                 }
                 dialog.dismiss();
             }

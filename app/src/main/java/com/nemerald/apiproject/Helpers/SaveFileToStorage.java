@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.nemerald.apiproject.Objects.FileSaver;
+import com.nemerald.apiproject.Objects.FileSaveAndGet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +13,12 @@ import java.io.IOException;
 
 public class SaveFileToStorage {
 
-    FileSaver fileSaver;
+    FileSaveAndGet fileSaveAndGet;
     Context context;
     String LOG_TAG = "Error in File saver instance: ";
 
-    public SaveFileToStorage(FileSaver fileSaver, Bitmap bitmap, Context context){
-        this.fileSaver = fileSaver;
+    public SaveFileToStorage(FileSaveAndGet fileSaveAndGet, Bitmap bitmap, Context context){
+        this.fileSaveAndGet = fileSaveAndGet;
         this.context = context;
         savePictureFileToStorage(bitmap);
     }
@@ -42,11 +42,11 @@ public class SaveFileToStorage {
         }
     }
     private FileOutputStream getPictureOutputStream() throws FileNotFoundException {
-        return new FileOutputStream(new File(getAlbumStorageDir(), fileSaver.getFileName()));
+        return new FileOutputStream(new File(getAlbumStorageDir(), fileSaveAndGet.getFileName()));
     }
 
     private File getAlbumStorageDir() {
-        File fileDirectory = new File(context.getFilesDir(), fileSaver.getAlbumName());
+        File fileDirectory = new File(context.getFilesDir(), fileSaveAndGet.getAlbumName());
         if (!fileDirectory.mkdirs()) {
             Log.e(LOG_TAG, "Directory not created");
         }
