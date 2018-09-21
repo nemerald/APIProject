@@ -1,5 +1,6 @@
 package com.nemerald.apiproject;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +12,7 @@ import android.view.Window;
 
 import com.nemerald.apiproject.Objects.Cache;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
+import com.nemerald.apiproject.Objects.SharedPreferencesHelper;
 import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
