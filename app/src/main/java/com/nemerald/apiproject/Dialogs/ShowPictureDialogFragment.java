@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nemerald.apiproject.Helpers.BitmapHelper;
-import com.nemerald.apiproject.Helpers.SaveFileToStorage;
+import com.nemerald.apiproject.Helpers.FileStorageHandler;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.FileSaveAndGet;
 import com.nemerald.apiproject.Objects.Picture;
@@ -28,7 +28,7 @@ import static com.nemerald.apiproject.MainActivity.getCache;
 
 public class ShowPictureDialogFragment extends DialogFragment {
 
-    SaveFileToStorage saveFileToStorage;
+    FileStorageHandler fileStorageHandler;
 
     public static ShowPictureDialogFragment newInstance(Picture picture, FavoriteGallery favoriteGallery){
         ShowPictureDialogFragment showPictureDialogFragment = new ShowPictureDialogFragment();
@@ -89,13 +89,16 @@ public class ShowPictureDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 if(picture.isFavorite()){
                     Toast.makeText(getContext(), getString(R.string.removed_favorite), Toast.LENGTH_SHORT).show();
-                    favoriteGallery.removeFavoritePictureInGallery(favoriteGallery.getFavoritePictureFromPictureId(picture.getPicId()));
+                    favoriteGallery.removeFavoritePictureInGallery(picture);
+                    fileStorageHandler = new FileStorageHandler(new FileSaveAndGet(getContext(), picture), getContext());
+                    fileStorageHandler.removePictureFromFileStorage(picture);
                     picture.setFavorite(false);
                 }
                 else{
                     Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
-                    favoriteGallery.addFavoritePictureToGalleryList(favoriteGallery.getFavoritePictureFromPictureId(picture.getPicId()));
-                    saveFileToStorage = new SaveFileToStorage(new FileSaveAndGet(getContext(), picture), new BitmapHelper().getBitmapFromURL(picture, getContext()), getContext());
+                    favoriteGallery.addFavoritePictureToGalleryList(picture);
+                    fileStorageHandler = new FileStorageHandler(new FileSaveAndGet(getContext(), picture), getContext());
+                    fileStorageHandler.savePictureToFileToStorage(new BitmapHelper().getBitmapFromURL(picture, getContext()));
                     picture.setFavorite(true);
                 }
                 dialog.dismiss();

@@ -18,12 +18,7 @@ public class FavoriteGallery extends Gallery {
             }
         }
     }
-
     public ArrayList<Picture> getFavoritePictureArrayList() {
         return favoritePictureArrayList;
-    }
-    public Picture getFavoritePictureFromPictureId(String pictureId){
-        /*TODO return picture image from storage*/
-        return null;
     }
 }

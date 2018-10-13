@@ -14,11 +14,6 @@ public class SharedPreferencesHelper implements ISharedPreferencesHelper{
     public SharedPreferences getSharedPreferences() {
         return context.getSharedPreferences(getSharedPrefsKey(), Context.MODE_PRIVATE);
     }
-    public void saveToSharedPrefs(FileSaveAndGet fileSaveAndGet){
-        editor = getSharedPreferencesEditor();
-        editor.putString(fileSaveAndGet.getFileId(), fileSaveAndGet.getFileFullPath());
-        editor.commit();
-    }
     private SharedPreferences.Editor getSharedPreferencesEditor(){
         return getSharedPreferences().edit();
     }
@@ -27,5 +22,16 @@ public class SharedPreferencesHelper implements ISharedPreferencesHelper{
     }
     private String getSharedFavoriteGalleryKey(){
         return SAVED_FAVORITE_GALLERY_KEY;
+    }
+    public void saveToSharedPrefs(FileSaveAndGet fileSaveAndGet){
+        editor = getSharedPreferencesEditor();
+        editor.putString(fileSaveAndGet.getFileId(), fileSaveAndGet.getFileFullPath());
+        editor.commit();
+    }
+    public void removeSharedPrefs(String pictureId){
+        editor = getSharedPreferencesEditor();
+        editor.remove(pictureId);
+        editor.commit();
+
     }
 }

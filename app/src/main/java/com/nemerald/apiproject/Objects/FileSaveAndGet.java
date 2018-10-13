@@ -6,6 +6,7 @@ public class FileSaveAndGet implements IFileSaveAndGet {
 
     private String fileName;
     private String fileFullPath;
+    private String filePath;
     private String fileId;
     Context context;
     Picture picture;
@@ -47,6 +48,7 @@ public class FileSaveAndGet implements IFileSaveAndGet {
         stringBuilder.append(context.getFilesDir());
         stringBuilder.append("/");
         stringBuilder.append(getAlbumName());
+        filePath = stringBuilder.toString();
         stringBuilder.append("/");
         stringBuilder.append(getFileName());
         fileFullPath = stringBuilder.toString();
@@ -73,5 +75,9 @@ public class FileSaveAndGet implements IFileSaveAndGet {
         stringBuilder.append(pictureId);
         stringBuilder.append(getPictureSuffix());
         return stringBuilder.toString();
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 }
