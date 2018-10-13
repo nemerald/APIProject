@@ -2,6 +2,7 @@ package com.nemerald.apiproject.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nemerald.apiproject.FragmentCommunicator;
 import com.nemerald.apiproject.Helpers.BitmapHelper;
 import com.nemerald.apiproject.Helpers.FileStorageHandler;
 import com.nemerald.apiproject.Objects.FavoriteGallery;
@@ -29,6 +31,24 @@ import static com.nemerald.apiproject.MainActivity.getCache;
 public class ShowPictureDialogFragment extends DialogFragment {
 
     FileStorageHandler fileStorageHandler;
+    FragmentCommunicator mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (FragmentCommunicator) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement FragmentCommunicator");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     public static ShowPictureDialogFragment newInstance(Picture picture, FavoriteGallery favoriteGallery){
         ShowPictureDialogFragment showPictureDialogFragment = new ShowPictureDialogFragment();
@@ -93,6 +113,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
                     fileStorageHandler = new FileStorageHandler(new FileSaveAndGet(getContext(), picture), getContext());
                     fileStorageHandler.removePictureFromFileStorage(picture);
                     picture.setFavorite(false);
+                    mCallback.updateFavoriteList();
                 }
                 else{
                     Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();

@@ -101,4 +101,7 @@ public class FavoriteFragment extends Fragment{
             }
         }));
     }
+    public void updateFavoriteList(){
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
 }

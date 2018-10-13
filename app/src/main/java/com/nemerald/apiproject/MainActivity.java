@@ -1,5 +1,7 @@
 package com.nemerald.apiproject;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 
@@ -18,13 +21,14 @@ import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
     public static Cache mCache;
     public FavoriteGallery favoriteGallery;
+    private final String LOG_TAG = "MainActivity";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -102,5 +106,17 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public void saveFavoriteGallery(FavoriteGallery favoriteGallery) {
         this.favoriteGallery = favoriteGallery;
+    }
+
+    @Override
+    public void updateFavoriteList() {
+        if(getSupportFragmentManager().getFragments().get(0) instanceof FavoriteFragment){
+            FavoriteFragment fragment = (FavoriteFragment) getSupportFragmentManager().getFragments().get(0);
+            if (fragment != null) {
+                fragment.updateFavoriteList();
+            } else {
+                Log.i(LOG_TAG, "FavoriteFragment is not initialized");
+            }
+        }
     }
 }
