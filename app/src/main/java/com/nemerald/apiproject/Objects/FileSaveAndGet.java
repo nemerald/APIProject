@@ -8,12 +8,17 @@ public class FileSaveAndGet implements IFileSaveAndGet {
     private String fileFullPath;
     private String fileId;
     Context context;
+    Picture picture;
 
-    public FileSaveAndGet(Context context, String fileName){
+    public FileSaveAndGet(Context context, Picture picture){
         this.context = context;
-        setFileName(fileName);
+        setFileName(picture.getPicId());
         setFileFullPath();
-        setFileId(fileName);
+        setFileId(picture.getPicId());
+        this.picture = picture;
+    }
+    public FileSaveAndGet(Context context){
+        this.context = context;
     }
 
     public String getAlbumName(){
@@ -38,12 +43,13 @@ public class FileSaveAndGet implements IFileSaveAndGet {
 
     @Override
     public void setFileFullPath() {
-        StringBuilder strB = new StringBuilder();
-        strB.append(context.getFilesDir());
-        strB.append(getAlbumName());
-        strB.append("/");
-        strB.append(getFileName());
-        fileFullPath = strB.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(context.getFilesDir());
+        stringBuilder.append("/");
+        stringBuilder.append(getAlbumName());
+        stringBuilder.append("/");
+        stringBuilder.append(getFileName());
+        fileFullPath = stringBuilder.toString();
     }
     @Override
     public String getFileFullPath() {
@@ -57,5 +63,15 @@ public class FileSaveAndGet implements IFileSaveAndGet {
     @Override
     public String getFileId() {
         return fileId;
+    }
+    public String getFileFullPathById(String pictureId){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(context.getFilesDir());
+        stringBuilder.append("/");
+        stringBuilder.append(getAlbumName());
+        stringBuilder.append("/");
+        stringBuilder.append(pictureId);
+        stringBuilder.append(getPictureSuffix());
+        return stringBuilder.toString();
     }
 }

@@ -133,7 +133,8 @@ public class GalleryFragment extends Fragment {
     }
 
     private void initGalleryData(JSONObject response) {
-        gallery = new Gallery(response);
+        gallery = new Gallery(response, getContext());
+        favoriteGallery.addFavoritePicturesToGallery(gallery.getPictureArrayList());
         galleryTitle.setText(gallery.getGalleryTitle());
         initializeAdapter();
 

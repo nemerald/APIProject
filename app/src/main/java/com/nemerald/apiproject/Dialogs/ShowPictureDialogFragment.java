@@ -43,8 +43,8 @@ public class ShowPictureDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final Picture picture = (Picture) getArguments().getSerializable("picture");
         final FavoriteGallery favoriteGallery = (FavoriteGallery) getArguments().getSerializable("favoriteGallery");
+        final Picture picture = (Picture) getArguments().getSerializable("picture");
 
         final LinearLayout root = new LinearLayout(getActivity());
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -56,7 +56,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
         final ImageView pickedImage = alertCustomLayout.findViewById(R.id.pickedImage);
         final Button makeFavorite = alertCustomLayout.findViewById(R.id.makeFavorite);
 
-        if(noNulls(picture, favoriteGallery) && checkIfPictureIsFavorite(favoriteGallery, picture)){
+        if(noNulls(picture, favoriteGallery) && picture.isFavorite()){
             makeFavorite.setText(R.string.remove_favorite);
         }
 
@@ -87,14 +87,16 @@ public class ShowPictureDialogFragment extends DialogFragment {
         makeFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(makeFavorite.getText().toString().matches(getString(R.string.remove_favorite))){
+                if(picture.isFavorite()){
                     Toast.makeText(getContext(), getString(R.string.removed_favorite), Toast.LENGTH_SHORT).show();
-                    favoriteGallery.removeFavoritePictureInGallery(picture);
+                    favoriteGallery.removeFavoritePictureInGallery(favoriteGallery.getFavoritePictureFromPictureId(picture.getPicId()));
+                    picture.setFavorite(false);
                 }
                 else{
                     Toast.makeText(getContext(), getString(R.string.new_favorite), Toast.LENGTH_SHORT).show();
-                    favoriteGallery.addPictureToGalleryList(picture);
-                    saveFileToStorage = new SaveFileToStorage(new FileSaveAndGet(getContext(), picture.getPicId()), new BitmapHelper().getBitmapFromURL(picture, getContext()), getContext());
+                    favoriteGallery.addFavoritePictureToGalleryList(favoriteGallery.getFavoritePictureFromPictureId(picture.getPicId()));
+                    saveFileToStorage = new SaveFileToStorage(new FileSaveAndGet(getContext(), picture), new BitmapHelper().getBitmapFromURL(picture, getContext()), getContext());
+                    picture.setFavorite(true);
                 }
                 dialog.dismiss();
             }
@@ -103,7 +105,7 @@ public class ShowPictureDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private boolean noNulls(Picture picture, FavoriteGallery favoriteGallery) {
+    private boolean noNulls(Object picture, FavoriteGallery favoriteGallery) {
 
     return picture!=null && favoriteGallery!=null;
     }

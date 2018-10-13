@@ -2,6 +2,7 @@ package com.nemerald.apiproject.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nemerald.apiproject.Helpers.BitmapHelper;
+import com.nemerald.apiproject.Objects.FileSaveAndGet;
 import com.nemerald.apiproject.Objects.Picture;
 import com.nemerald.apiproject.R;
 
@@ -62,15 +64,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(FieldViewHolder fieldViewHolder, int position) {
 
-        Bitmap bitmap = getCache().getBitmapFromMemCache(pictureArrayList.get(position).getPicId());
-        if(bitmap != null){
-            fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
+        if(!pictureArrayList.get(position).isFavorite()){
+            Bitmap bitmap = getCache().getBitmapFromMemCache(pictureArrayList.get(position).getPicId());
+            if(bitmap != null){
+                fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
+            }
+            else{
+                bitmap = new BitmapHelper().getBitmapFromURL(pictureArrayList.get(position), context);
+                fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
+            }
+        }else{
+            fieldViewHolder.galleryPhoto.setImageBitmap(BitmapFactory.decodeFile(new FileSaveAndGet(context).getFileFullPathById(pictureArrayList.get(position).getPicId())));
         }
-        else{
-            bitmap = new BitmapHelper().getBitmapFromURL(pictureArrayList.get(position), context);
-            fieldViewHolder.galleryPhoto.setImageBitmap(bitmap);
-        }
-
         fieldViewHolder.bind(pictureArrayList.get(position), listener);
     }
 

@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
         if(shared!=null){
             getPicturesForFavoriteGallery(shared.getAll());
         }
-
-
         if(savedInstanceState==null){
             getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
             mCache = new Cache();
@@ -82,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
     private void getPicturesForFavoriteGallery(Map<String, ?> all) {
         for(Map.Entry<String,?> entry : all.entrySet()){
             File file = new File(entry.getKey());
-            String test = file.toString();
         }
     }
 

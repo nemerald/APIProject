@@ -1,5 +1,7 @@
 package com.nemerald.apiproject.Objects;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,12 +13,17 @@ public class Gallery implements Serializable{
 
     private String galleryTitle;
     ArrayList<Picture> pictureArrayList = new ArrayList<>();
+    SharedPreferencesHelper sharedPreferencesHelper;
+    Context context;
+
 
     public Gallery() {
 
     }
-    public Gallery(JSONObject response){
+    public Gallery(JSONObject response, Context context){
         try {
+            this.context = context;
+            sharedPreferencesHelper = new SharedPreferencesHelper(context);
             setGalleryTitle(response.getJSONObject("gallery").getJSONObject("title").getString("_content"));
             createGalleryPictureArray(response.getJSONObject("photos").getJSONArray("photo"));
         } catch (JSONException e) {
@@ -30,13 +37,17 @@ public class Gallery implements Serializable{
                 JSONObject pictureData = dataArray.getJSONObject(counter);
                 addPictureToGalleryList(new Picture(pictureData.getString("id"), pictureData.getString("title"),
                                                     pictureData.getString("farm"), pictureData.getString("server"),
-                                                    pictureData.getString("secret")));
+                                                    pictureData.getString("secret"), isFavourite(pictureData.getString("id"))));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private Boolean isFavourite(String id) {
+        return sharedPreferencesHelper.getSharedPreferences().contains(id);
     }
 
     public String getGalleryTitle() {

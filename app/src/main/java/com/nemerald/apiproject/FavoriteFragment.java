@@ -93,7 +93,7 @@ public class FavoriteFragment extends Fragment{
         outState.putSerializable(getString(R.string.favorite_gallery_tag), favoriteGallery);
     }
     public void initializeAdapter() {
-        recyclerView.setAdapter(new RecyclerViewAdapter(favoriteGallery.getPictureArrayList(), getContext(), new RecyclerViewAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(new RecyclerViewAdapter(favoriteGallery.getFavoritePictureArrayList(), getContext(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Picture picture) {
                 ShowPictureDialogFragment newFragment = ShowPictureDialogFragment.newInstance(picture, favoriteGallery);
