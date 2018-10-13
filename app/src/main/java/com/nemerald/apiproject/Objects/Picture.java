@@ -30,15 +30,15 @@ public class Picture implements Serializable{
         return picTitle;
     }
 
-    private String getFarm() {
+    public String getFarm() {
         return farm;
     }
 
-    private String getServer() {
+    public String getServer() {
         return server;
     }
 
-    private String getSecret() {
+    public String getSecret() {
         return secret;
     }
 

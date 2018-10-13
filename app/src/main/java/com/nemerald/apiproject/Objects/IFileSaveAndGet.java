@@ -5,8 +5,8 @@ public interface IFileSaveAndGet {
     String PICTURE_SUFFIX = ".png";
     void setFileName(String fileName);
     String getFileName();
-    void setFileFullPath();
-    String getFileFullPath();
+    void setFilePath();
     void setFileId(String fileName);
     String getFileId();
+    String getFileJsonRef();
 }

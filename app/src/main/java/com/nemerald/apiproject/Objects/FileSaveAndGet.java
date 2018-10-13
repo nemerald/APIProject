@@ -2,10 +2,12 @@ package com.nemerald.apiproject.Objects;
 
 import android.content.Context;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FileSaveAndGet implements IFileSaveAndGet {
 
     private String fileName;
-    private String fileFullPath;
     private String filePath;
     private String fileId;
     Context context;
@@ -13,10 +15,10 @@ public class FileSaveAndGet implements IFileSaveAndGet {
 
     public FileSaveAndGet(Context context, Picture picture){
         this.context = context;
-        setFileName(picture.getPicId());
-        setFileFullPath();
-        setFileId(picture.getPicId());
         this.picture = picture;
+        setFileName(picture.getPicId());
+        setFilePath();
+        setFileId(picture.getPicId());
     }
     public FileSaveAndGet(Context context){
         this.context = context;
@@ -43,19 +45,12 @@ public class FileSaveAndGet implements IFileSaveAndGet {
     }
 
     @Override
-    public void setFileFullPath() {
+    public void setFilePath() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(context.getFilesDir());
         stringBuilder.append("/");
         stringBuilder.append(getAlbumName());
         filePath = stringBuilder.toString();
-        stringBuilder.append("/");
-        stringBuilder.append(getFileName());
-        fileFullPath = stringBuilder.toString();
-    }
-    @Override
-    public String getFileFullPath() {
-        return fileFullPath;
     }
     @Override
     public void setFileId(String fileName) {
@@ -66,6 +61,23 @@ public class FileSaveAndGet implements IFileSaveAndGet {
     public String getFileId() {
         return fileId;
     }
+
+    @Override
+    public String getFileJsonRef() {
+        JSONObject picJsonRef = new JSONObject();
+        try {
+            picJsonRef.put("id", picture.getPicId());
+            picJsonRef.put("title", picture.getPicTitle());
+            picJsonRef.put("farm", picture.getFarm());
+            picJsonRef.put("server", picture.getServer());
+            picJsonRef.put("secret", picture.getSecret());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return picJsonRef.toString();
+    }
+
     public String getFileFullPathById(String pictureId){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(context.getFilesDir());

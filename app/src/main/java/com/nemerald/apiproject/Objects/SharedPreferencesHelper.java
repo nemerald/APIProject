@@ -25,7 +25,7 @@ public class SharedPreferencesHelper implements ISharedPreferencesHelper{
     }
     public void saveToSharedPrefs(FileSaveAndGet fileSaveAndGet){
         editor = getSharedPreferencesEditor();
-        editor.putString(fileSaveAndGet.getFileId(), fileSaveAndGet.getFileFullPath());
+        editor.putString(fileSaveAndGet.getFileId(), fileSaveAndGet.getFileJsonRef());
         editor.commit();
     }
     public void removeSharedPrefs(String pictureId){

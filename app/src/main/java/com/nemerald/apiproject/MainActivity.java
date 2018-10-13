@@ -15,13 +15,16 @@ import com.nemerald.apiproject.Objects.FavoriteGallery;
 import com.nemerald.apiproject.Objects.SharedPreferencesHelper;
 import com.nemerald.apiproject.UIHelper.BottomNavigationViewBehavior;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements FragmentCommunicator{
 
     public static Cache mCache;
-    public FavoriteGallery favorite_gallery;
+    public FavoriteGallery favoriteGallery;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,34 +67,40 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationViewBehavior());
-        SharedPreferences shared = new SharedPreferencesHelper(this).getSharedPreferences();
+        SharedPreferences sharedPreferences = new SharedPreferencesHelper(this).getSharedPreferences();
 
-        if(shared!=null){
-            getPicturesForFavoriteGallery(shared.getAll());
-        }
         if(savedInstanceState==null){
             getSupportFragmentManager().beginTransaction().add(R.id.rootLayout, new GalleryFragment()).commit();
             mCache = new Cache();
-            favorite_gallery = new FavoriteGallery();
-            favorite_gallery.setGalleryTitle(getString(R.string.favorite_gallery));
+            favoriteGallery = new FavoriteGallery();
+            favoriteGallery.setGalleryTitle(getString(R.string.favorite_gallery));
+            if(sharedPreferences!=null){
+                getPicturesForFavoriteGallery(sharedPreferences.getAll(), favoriteGallery);
+            }
         }
-    }
 
-    private void getPicturesForFavoriteGallery(Map<String, ?> all) {
+
+
+    }
+    private void getPicturesForFavoriteGallery(Map<String, ?> all, FavoriteGallery favoriteGallery) {
         for(Map.Entry<String,?> entry : all.entrySet()){
-            File file = new File(entry.getKey());
+            try {
+                favoriteGallery.addFavoritePictureToGallery(new JSONObject(entry.getValue().toString()));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
-
     public static Cache getCache() { return mCache;}
 
     @Override
     public FavoriteGallery fetchFavoriteGallery() {
-        return favorite_gallery;
+        return favoriteGallery;
     }
 
     @Override
     public void saveFavoriteGallery(FavoriteGallery favoriteGallery) {
-        favorite_gallery = favoriteGallery;
+        this.favoriteGallery = favoriteGallery;
     }
 }
